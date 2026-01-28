@@ -11,9 +11,13 @@ IMPORTANCIA_FORTALEZA = 9  # Default middle value
 # Number of Monte Carlo simulations to run
 NUM_SIMULACIONES = 10000
 
+# Number of teams in the Champions League league phase
+NUM_EQUIPOS = 36
+
+
 # Definir una función que simule una temporada de 8 jornadas y devuelva la tabla de clasificación final
 def simular_temporada():
-    equipos = [f"Equipo {i+1}" for i in range(32)]
+    equipos = [f"Equipo {i+1}" for i in range(NUM_EQUIPOS)]
 
     # Asignar una fuerza a cada equipo (entre 1 y 100, donde 100 es el más fuerte)
     fuerzas = {equipo: random.randint(50, 100) for equipo in equipos}
@@ -21,14 +25,14 @@ def simular_temporada():
     # Crear una tabla de clasificación vacía
     tabla = pd.DataFrame({
         'Equipo': equipos,
-        'Puntos': [0] * 32,
-        'Partidos Jugados': [0] * 32,
-        'Ganados': [0] * 32,
-        'Empatados': [0] * 32,
-        'Perdidos': [0] * 32,
-        'Goles a Favor': [0] * 32,
-        'Goles en Contra': [0] * 32,
-        'Diferencia de Goles': [0] * 32
+        'Puntos': [0] * NUM_EQUIPOS,
+        'Partidos Jugados': [0] * NUM_EQUIPOS,
+        'Ganados': [0] * NUM_EQUIPOS,
+        'Empatados': [0] * NUM_EQUIPOS,
+        'Perdidos': [0] * NUM_EQUIPOS,
+        'Goles a Favor': [0] * NUM_EQUIPOS,
+        'Goles en Contra': [0] * NUM_EQUIPOS,
+        'Diferencia de Goles': [0] * NUM_EQUIPOS
     })
 
     # Generar el calendario de enfrentamientos (todos contra todos)
@@ -168,7 +172,7 @@ resultados = defaultdict(list)
 
 for _ in tqdm(range(NUM_SIMULACIONES)):
     tabla_final = simular_temporada()
-    for posicion in range(1, 33):
+    for posicion in range(1, NUM_EQUIPOS + 1):
         puntos = tabla_final.loc[posicion - 1, 'Puntos']
         resultados[puntos].append(posicion)
 
