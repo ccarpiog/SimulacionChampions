@@ -9,7 +9,7 @@ from tqdm import tqdm  # Importar tqdm para la barra de progreso
 IMPORTANCIA_FORTALEZA = 9  # Default middle value
 
 # Number of Monte Carlo simulations to run
-NUM_SIMULACIONES = 10000
+NUM_SIMULACIONES = 1000
 
 # Number of teams in the Champions League league phase
 NUM_EQUIPOS = 36
@@ -192,5 +192,10 @@ for puntos, posiciones in resultados.items():
         tabla_resultados.loc[puntos, "Vigésimo Cuarto o Mejor (%)"] = vigesimo_cuarto_o_mejor
         tabla_resultados.loc[puntos, "Vigésimo Quinto o Peor (%)"] = vigesimo_quinto_o_peor
 
-# Mostrar la tabla de resultados
-print(tabla_resultados)
+# Sort by points in descending order (24 at top, 0 at bottom)
+tabla_resultados = tabla_resultados.sort_index(ascending=False)
+tabla_resultados.index.name = 'Puntos'
+
+# Save to CSV file
+tabla_resultados.to_csv('resultados_champions.csv')
+print("Resultados guardados en 'resultados_champions.csv'")
